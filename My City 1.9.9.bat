@@ -1,8 +1,3 @@
-@echo off
-chcp 65001
-cls
-title My City 1.9.9
-
 :Logo
 type Logo.txt
 pause
@@ -1023,8 +1018,8 @@ pause
 goto start
 
 :cz15
-cls
-echo
+set prog=1
+%shell%
 
 
 
