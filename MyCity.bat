@@ -1,17 +1,19 @@
-:Logo
-type Logo.txt
-pause
+md MyCity
+cls
 :start
-echo -----------------------------------
-echo ----------Witaj w Grze ------------
-echo -----------------------------------
+echo ───────────────────────────┐
+echo Godzina: %time%
+echo ──────────────────┬────────┘
+echo MyCityForMTOS     │
+echo ──────────────────┘
 echo 1. Zacznij gre
-echo 2. Instrukcja 
-echo 3. Exit
+echo 2. Continue Game
+echo 3. Instrukcja
+echo 4. Wyjście
 set /p wybieram:={1;2;3}:
 if %wybieram:%==1 goto Zacznij gre
-if %wybieram:%==2 goto Instrukcja
-if %wybieram:%==3 goto Exit
+if %wybieram:%==3 goto Instrukcja
+if %wybieram:%==4 goto Exit
 
 :Exit
 exit
@@ -51,7 +53,7 @@ set festyn2=550
 set domrodzinny=300
 
 cls
-echo Witaj w grze wpisz jak masz na imie.
+echo Witaj w grze. Wpisz jak masz na imie.
 set /p "imie=>>"
 cls
 echo Witaj %imie% 
@@ -63,10 +65,10 @@ cls
 echo A teraz w jakim wojewodzstwie bedzie
 set /p "wojewodzstwo=>>"
 cls
-echo Ustal swoj podpis ktorym bedziesz podpisywal umowy
+echo Ustal swój podpis ktorym bedziesz podpisywal umowy
 set /p "podpis=>>"
 cls
-echo Dobrze witam %imie% jestes burmistrzem miasta %miasto% w wojewodzstwie %wojewodzstwo% wiec zaczynajmy 
+echo Dobrze, witam %imie% jestes burmistrzem miasta %miasto% w wojewodzstwie %wojewodzstwo% wiec zaczynajmy 
 echo Na start dostajesz 1000$
 echo Wcisnij klawisz aby rozpaczac gre
 pause >nul
@@ -90,6 +92,7 @@ if %wybieram:%==3 goto blok1
 :wiezowiec1
 cls
 set /a kasa=kasa-wiezowiec
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -120,6 +123,7 @@ goto cz1
 :dom1
 cls
 set /a kasa=kasa-dom
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -150,6 +154,7 @@ goto cz1
 
 :blok1
 cls
+if kasa LSS 0 (goto :bankrut)
 set /a kasa=kasa-blok
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
@@ -181,6 +186,9 @@ pause
 goto cz1
 
 :cz1
+cd MyCity
+echo 1>save
+cd .. 
 cls
 echo ##################@ZawszePomorze################
 echo Miasto %miasto% w wojewodzstwie %wojewodzstwo% 
@@ -193,6 +201,9 @@ pause
 goto cz2
 
 :cz2
+cd MyCity
+echo 2>save
+cd .. 
 cls
 echo Czas zatrudnic menadzera 
 echo.
@@ -300,6 +311,7 @@ if %wybieram:%==3 goto kino
 :stadion
 cls
 set /a kasa=kasa-stadion
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -326,6 +338,7 @@ goto cz3
 :basen
 cls
 set /a kasa=kasa-basen
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -350,6 +363,7 @@ goto cz3
 :kino
 cls
 set /a kasa=kasa-kino
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -378,6 +392,9 @@ pause
 goto cz3
 
 :cz3
+cd MyCity
+echo 3>save
+cd .. 
 cls
 echo ##############@ZawszePomorze#################
 echo Miasto %miasto% w wojewodzstwie %wojewodzstwo%
@@ -390,6 +407,9 @@ pause
 goto cz4
 
 :cz4
+cd MyCity
+echo 4>save
+cd .. 
 cls
 echo Menadzer proponuje zrobienie czegos dla ciebie wybierz co ma zrobic
 echo 1. Sprowadz mieszkancow
@@ -453,6 +473,9 @@ pause
 goto cz5
 
 :cz5
+cd MyCity
+echo 5>save
+cd .. 
 cls
 echo Czas zatrudnic drugiego menadzera 
 echo.
@@ -539,6 +562,9 @@ pause
 goto cz6
 
 :cz6
+cd MyCity
+echo 6>save
+cd .. 
 cls
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
@@ -555,6 +581,7 @@ if %wybieram:%==2 goto zwolnienie
 :zostanie
 cls
 set /a kasa=kasa-dom
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -575,9 +602,13 @@ echo Menadzer:Nie zaplaciles mi nie mam jak zyc zwalniam sie
 echo Przez to ze menadzer sie zwolnil straciles 1000$ poniewaz nie umiales rozpozadzic pieniedzmi
 echo --------------------------------------------------------------------------------------------
 pause
+if kasa LSS 0 (goto :bankrut)
 goto cz8
 
 :cz8
+cd MyCity
+echo 8>save
+cd .. 
 cls
 echo ###########@ZawszePomorze#############
 echo Miasto %miasto% w wojewodzstwie
@@ -586,9 +617,9 @@ echo przez co miasto zaczyna bankrutowac
 echo                  Tekst:Olek.K
 echo ########################################
 pause
-goto bankrut
+goto bankrut2
 
-:bankrut
+:bankrut2
 cls
 set /a kasa=kasa-brakkasy
 set /a mieszkancy=mieszkancy-brakludzi
@@ -631,6 +662,7 @@ if %wybieram:%==2 goto nauczka
 :zostanie2
 cls
 set /a kasa=kasa-dom
+if kasa LSS 0 (goto :bankrut)
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
 echo ####################################################
@@ -651,6 +683,9 @@ goto start
 
 :cz7
 cls
+cd MyCity
+echo 7>save
+cd .. 
 echo ###########@ZawszePomorze#############
 echo Miasto %miasto% w wojewodzstwie
 echo %wojewodzstwo% ma nadal 2 menadzerow
@@ -661,6 +696,9 @@ pause
 goto cz9
 
 :cz9
+cd MyCity
+echo 9>save
+cd .. 
 cls
 echo ####################################################
 echo ## kasa: %kasa% ludzie: %mieszkancy% czas: %time% ##
